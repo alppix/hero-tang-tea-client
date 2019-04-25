@@ -4,10 +4,14 @@
   "private": true,
   "scripts": {
     "build": "ng build",
+    "build:client-and-server-bundles": "ng build --prod && ng run hero-tang-tea:server:production",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
+    "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
     "semantic-release": "semantic-release",
+    "serve:ssr": "node dist/server",
     "start": "ng serve",
     "test": "ng test"
   },
@@ -52,12 +56,17 @@
     "@angular/compiler": "~7.2.0",
     "@angular/core": "~7.2.0",
     "@angular/forms": "~7.2.0",
+    "@angular/http": "~7.2.0",
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
+    "@angular/platform-server": "~7.2.0",
     "@angular/pwa": "^0.12.4",
     "@angular/router": "~7.2.0",
     "@angular/service-worker": "~7.2.0",
+    "@nguniversal/express-engine": "0.0.0",
+    "@nguniversal/module-map-ngfactory-loader": "0.0.0",
     "core-js": "^2.5.4",
+    "express": "^4.15.2",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
@@ -88,9 +97,11 @@
     "pretty-quick": "^1.10.0",
     "protractor": "~5.4.0",
     "semantic-release": "^15.13.3",
+    "ts-loader": "^5.2.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "webpack-cli": "^3.1.0"
   }
 }
