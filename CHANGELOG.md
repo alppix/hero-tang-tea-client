@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/alppix/hero-tang-tea-client/compare/0.1.0...0.2.0) (2019-04-25)
+
+
+### Features
+
+* **app:** setup server-side rendering ([#6](https://github.com/alppix/hero-tang-tea-client/issues/6)) ([112cd36](https://github.com/alppix/hero-tang-tea-client/commit/112cd36))
+
 # [0.1.0](https://github.com/alppix/hero-tang-tea-client/compare/0.0.1...0.1.0) (2019-04-25)
 
 
