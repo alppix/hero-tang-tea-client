@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/alppix/hero-tang-tea-client/compare/0.2.0...1.0.0) (2019-04-26)
+
+
+### Features
+
+* **app:** deploy app to Firebase ([#7](https://github.com/alppix/hero-tang-tea-client/issues/7)) ([66eb36b](https://github.com/alppix/hero-tang-tea-client/commit/66eb36b))
+
+
+### BREAKING CHANGES
+
+* **app:** Deploy app to Firebase.
+
 # [0.2.0](https://github.com/alppix/hero-tang-tea-client/compare/0.1.0...0.2.0) (2019-04-25)
 
 
