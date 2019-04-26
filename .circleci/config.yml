@@ -10,6 +10,30 @@ executors:
     working_directory: ~/project
 
 commands:
+  run_firebase_deploy:
+    description: 'Deploy app to Firebase'
+    parameters:
+      project_alias:
+        type: string
+        default: 'default'
+    steps:
+      - checkout
+      - run_npm_install_with_cache
+      - run:
+          name: Install Firebase NPM Dependencies
+          command: npm --prefix functions install
+      - run:
+          name: Build Artifacts
+          command: |
+            npm run build:ssr
+            cp -a dist functions
+            mv dist/browser/index.html dist/browser/index-browser.html
+      - deploy:
+          name: Deploy to Firebase
+          command: |
+            npm run firebase -- use << parameters.project_alias >> --token="$FIREBASE_TOKEN"
+            npm run firebase -- deploy --token="$FIREBASE_TOKEN" --non-interactive
+
   run_npm_install_with_cache:
     description: 'Run NPM install with cache'
     steps:
@@ -41,6 +65,24 @@ jobs:
       - run:
           name: Notify Code Climate Test Reporter - After Build
           command: ./cc-test-reporter after-build --exit-code $?
+
+  deploy_dev:
+    executor: default_executor
+    steps:
+      - run_firebase_deploy:
+          project_alias: 'default'
+
+  deploy_prod:
+    executor: default_executor
+    steps:
+      - run_firebase_deploy:
+          project_alias: 'prod'
+
+  deploy_uat:
+    executor: default_executor
+    steps:
+      - run_firebase_deploy:
+          project_alias: 'uat'
 
   lint:
     executor: default_executor
@@ -92,3 +134,20 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy_dev:
+          requires:
+            - release
+      - deploy_prod:
+          requires:
+            - lint
+            - unit_test
+          filters:
+            branches:
+              only: release
+      - deploy_uat:
+          requires:
+            - lint
+            - unit_test
+          filters:
+            branches:
+              only: uat

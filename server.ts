@@ -1,7 +1,8 @@
 import 'zone.js/dist/zone-node';
 import { enableProdMode } from '@angular/core';
 // Express Engine
-import { ngExpressEngine } from '@nguniversal/express-engine';
+import { ngExpressEngine, RenderOptions } from '@nguniversal/express-engine';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 // Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
@@ -12,7 +13,7 @@ import { join } from 'path';
 enableProdMode();
 
 // Express server
-const app = express();
+export const app = express();
 
 const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = join(process.cwd(), 'dist/browser');
@@ -23,13 +24,27 @@ const {
   LAZY_MODULE_MAP
 } = require('./dist/server/main');
 
-// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+// Our Universal express-engine
 app.engine(
   'html',
-  ngExpressEngine({
-    bootstrap: AppServerModuleNgFactory,
-    providers: [provideModuleMap(LAZY_MODULE_MAP)]
-  })
+  (
+    _: string,
+    options: RenderOptions,
+    callback: (
+      err?: Error | null | undefined,
+      html?: string | undefined
+    ) => void
+  ) => {
+    const engine = ngExpressEngine({
+      bootstrap: AppServerModuleNgFactory,
+      providers: [
+        { provide: REQUEST, useValue: options.req },
+        { provide: RESPONSE, useValue: options.req.res },
+        provideModuleMap(LAZY_MODULE_MAP)
+      ]
+    });
+    engine(_, options, callback);
+  }
 );
 
 app.set('view engine', 'html');
@@ -51,6 +66,6 @@ app.get('*', (req, res) => {
 });
 
 // Start up the Node server
-app.listen(PORT, () => {
-  console.log(`Node Express server listening on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Node Express server listening on http://localhost:${PORT}`);
+// });
