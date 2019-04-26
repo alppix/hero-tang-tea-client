@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "ax-hero-tang-tea-dev",
-    "prod": "ax-hero-tang-tea"
+    "prod": "ax-hero-tang-tea",
+    "uat": "ax-hero-tang-tea-uat"
   }
 }
