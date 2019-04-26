@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "ax-hero-tang-tea-dev",
+    "prod": "ax-hero-tang-tea"
+  }
+}
