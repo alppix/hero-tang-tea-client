@@ -25,10 +25,26 @@ describe('Http401Component', () => {
   });
 
   describe('#ngOnInit', () => {
-    it('should set response status code as "401"', () => {
-      spyOn(component as any, 'setResponseStatus');
-      component.ngOnInit();
-      expect((component as any).setResponseStatus).toHaveBeenCalledWith(401);
+    describe('Platform is server', () => {
+      beforeEach(() => {
+        (component as any).isPlatformServer = true;
+      });
+
+      it('should set response status code as "401"', () => {
+        spyOn(component as any, 'setResponseStatus');
+        component.ngOnInit();
+        expect((component as any).setResponseStatus).toHaveBeenCalledWith(401);
+      });
+    });
+  });
+
+  describe('#setResponseStatus', () => {
+    it('should set response status with status code', () => {
+      const response = (component as any).response;
+
+      spyOn(response, 'status');
+      (component as any).setResponseStatus(401);
+      expect(response.status).toHaveBeenCalledWith(401);
     });
   });
 });

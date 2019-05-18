@@ -1,0 +1,14 @@
+<div [attr.id]="elementId" class="ui left thin sidebar inverted vertical menu">
+  <a class="item" (click)="handleSidebarItemClick('')">
+    <i class="home icon"></i>
+    Home
+  </a>
+  <a
+    id="drinks-menu-item"
+    class="item"
+    (click)="handleSidebarItemClick('/drinks')"
+  >
+    <i class="file alternate outline icon"></i>
+    Drinks Menu
+  </a>
+</div>
