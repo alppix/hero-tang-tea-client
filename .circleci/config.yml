@@ -13,9 +13,10 @@ commands:
   run_firebase_deploy:
     description: 'Deploy app to Firebase'
     parameters:
+      configuration_name:
+        type: string
       project_alias:
         type: string
-        default: 'default'
     steps:
       - checkout
       - run_npm_install_with_cache
@@ -25,7 +26,9 @@ commands:
       - run:
           name: Build Artifacts
           command: |
-            npm run build:ssr
+            npm run build -- --configuration=<< parameters.configuration_name >>
+            npm run ng run hero-tang-tea:server:<< parameters.configuration_name >>
+            npm run compile:server
             cp -a dist functions
             mv dist/browser/index.html dist/browser/index-browser.html
       - deploy:
@@ -70,18 +73,21 @@ jobs:
     executor: default_executor
     steps:
       - run_firebase_deploy:
+          configuration_name: 'staging'
           project_alias: 'default'
 
   deploy_prod:
     executor: default_executor
     steps:
       - run_firebase_deploy:
+          configuration_name: 'production'
           project_alias: 'prod'
 
   deploy_uat:
     executor: default_executor
     steps:
       - run_firebase_deploy:
+          configuration_name: 'uat'
           project_alias: 'uat'
 
   lint:
