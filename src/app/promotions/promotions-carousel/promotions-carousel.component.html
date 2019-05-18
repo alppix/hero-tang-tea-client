@@ -1,0 +1,46 @@
+<div *ngIf="!isLoading; else loaderTemplate">
+  <div *ngIf="!error; else errorTemplate">
+    <div *ngIf="promotions && promotions.length > 0; else noPromotionTemplate">
+      <ngu-carousel
+        id="promotions-carousel"
+        #promotionsCarousel
+        [inputs]="carouselConfig"
+        [dataSource]="promotions"
+      >
+        <div *nguCarouselDef="let promotion" class="item">
+          <div class="tile">
+            <a [href]="promotion.navigateTo" class="ui fluid rounded image">
+              <img [src]="promotion.imgSrc" [alt]="promotion.description" />
+            </a>
+          </div>
+        </div>
+      </ngu-carousel>
+    </div>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div id="error-message" class="ui negative icon message">
+    <i class="times icon"></i>
+    <div class="content">
+      <div class="header">Failed to Load Promotions</div>
+      <pre>{{ error }}</pre>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loaderTemplate>
+  <div id="loader" class="ui segment">
+    <div class="ui active large centered inline text loader">Loading</div>
+  </div>
+</ng-template>
+
+<ng-template #noPromotionTemplate>
+  <div id="no-promotion-message" class="ui info icon message">
+    <i class="info icon"></i>
+    <div class="content">
+      <div class="header">No Promotion Available</div>
+      <p>Please check again later.</p>
+    </div>
+  </div>
+</ng-template>

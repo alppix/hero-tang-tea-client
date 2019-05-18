@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: './http-status/http-status.module#HttpStatusModule'
   },
   {
+    path: '',
+
+    loadChildren: './home/home.module#HomeModule'
+  },
+  {
     path: '**',
     redirectTo: '/error/404'
   }
